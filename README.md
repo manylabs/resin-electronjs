@@ -6,6 +6,11 @@ Adapted from Miguel Grinberg's post "[Watch Live Video of Earth on your Raspberr
 
 The ISS completes a full orbit roughly every 90 minutes. The video transmission is only active when the ISS is above the day-side of the earth, so expect the video feed to alternate from live to gray screen every 45 minutes. Find out where the ISS is with [ESA ISS tracker](http://wsn.spaceflight.esa.int/iss/index_portal.php) or [isstracker.com](http://www.isstracker.com).
 
+**Note:** this branch is currently not working well because the ustream plugin in [streamlink](https://github.com/streamlink/streamlink) (the active fork of livestreamer) is not reliable. The following forks of streamlink have work-in-progress ustream plugins that *may* work. This branch currently uses [beardypig websockets](https://github.com/beardypig/streamlink/tree/ustream-websockets).
+- [beardypig/streamlink:ustream-websockets](https://github.com/beardypig/streamlink/tree/ustream-websockets) ([ustream plugin src](https://github.com/beardypig/streamlink/blob/ustream-websockets/src/streamlink/plugins/ustreamtv.py))
+- [Tristanx/streamlink:master](https://github.com/Tristanx/streamlink) ([ustream plugin src](https://github.com/Tristanx/streamlink/blob/master/src/streamlink/plugins/ustreamtv.py))
+- [Tristanx vs. beardypig comparison](https://github.com/Tristanx/streamlink/compare/master...beardypig:ae149acd)
+
 ### related RPI web kiosk display projects
 - DIY Smart Television with RaspberryPi and Node.js http://blog.donaldderek.com/2013/06/build-your-own-google-tv-using-raspberrypi-nodejs-and-socket-io/
 - HOWTO: Boot your Raspberry Pi into a fullscreen browser kiosk https://blogs.wcode.org/2013/09/howto-boot-your-raspberry-pi-into-a-fullscreen-browser-kiosk/
@@ -18,17 +23,16 @@ The ISS completes a full orbit roughly every 90 minutes. The video transmission 
 ### Dev notes
 ssh access:
 - get ip from resin.io dashboard
-- ssh root@<ip-address> (pass=resin)
-- TODO change passwd
+- ssh root@<ip-address> (p=resin)
+- don't forget to change passwd
 - SSH refuse to connect, mentioning MTM worry?
   - remove key from local machine
   - ssh-keygen -R <YOUR-DEVICE'S-IP>
   - https://github.com/resin-io-projects/resin-openssh
 - env variables not showing up in ssh terminal session?
-  -
   - https://docs.resin.io/runtime/runtime/#using-resin-ssh-from-the-cli
 
-python virtual environments
+python virtual environments - handy for local dev testing
 - create local: `python3 -m venv streamlinkenv`
 - activate: `. streamlinkenv/bin/activate.fish`
 - install package dev mode & save install paths in case of screw up: `python3 setup.py develop --record files.txt`
