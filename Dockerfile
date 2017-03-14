@@ -1,6 +1,27 @@
 FROM resin/raspberrypi2-python:3.6
 
-# Install Python and flite deps.
+#----------------------
+# add node
+# https://github.com/resin-io-library/base-images/blob/master/node/raspberry-pi2/debian/default/slim/Dockerfile
+ENV NODE_VERSION 0.10.22
+
+RUN buildDeps='curl' \
+	&& set -x \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& curl -SLO "http://resin-packages.s3.amazonaws.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
+	&& echo "d72e7f3908738ed502ebd53552619c955bbd13cf4e7e0f88cfb0ea2c5a396005  node-v0.10.22-linux-armv7hf.tar.gz" | sha256sum -c - \
+	&& tar -xzf "node-v$NODE_VERSION-linux-armv7hf.tar.gz" -C /usr/local --strip-components=1 \
+	&& rm "node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& npm config set unsafe-perm true -g --unsafe-perm \
+	&& rm -rf /tmp/*
+#----------------------
+
+# kijani light sensor poll script deps
+RUN npm install -g forever forever-monitor
+
+# Install Python and livestreamer deps
 RUN apt-get update \
   && apt-get install -y \
   openssh-server \

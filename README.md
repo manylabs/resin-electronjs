@@ -60,3 +60,11 @@ streamlink -l debug --verbose-player --player "omxplayer --timeout 20 --win \"0 
 
 streamlink -l debug --verbose-player --stdout http://www.ustream.tv/channel/iss-hdev-payload mobile_480p
 ```
+
+### KijaniGrows ML light sensor
+- seems to be >100 lumens when lights are on
+- seems to be <75 (~50) lumens when lights are off at night
+- json api:
+```
+curl 'http://api.kijanigrows.com/v2/device/sensors/json/manylabs' -H 'If-None-Match: W/"111e-kiUKqL33fAiDd0Uuujy/ww"' -H 'DNT: 1' -H 'Accept-Encoding: gzip, deflate, sdch' -H 'Accept: application/json' -H 'Referer: http://github.com/manylabs/resin-electronjs-piscreen/' --compressed
+```
