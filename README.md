@@ -26,7 +26,7 @@ Forked from [resin.io electronJS application template](https://github.com/resin-
   - iss ustream: http://ustream.tv/channel/iss-hdev-payload/pop-out
   - spacex live webcast: https://www.youtube.com/embed/lZmqbL-hz7U?rel=0&autoplay=1&loop=1
   - yule log: https://www.youtube.com/embed/97g1krDkzNI?rel=0&autoplay=1&loop=1&playlist=97g1krDkzNI
-  - see `livestreamer` branch for experimental headless (skip electronjs) omxplayer build. omxplayer (only?) video player that can decode video on pi w/ hardware acceleration. depends on livestreamer / streamlink package, neither of which currently work reliably w/ ustream.com streams.
+  - see `streamlink` branch for experimental headless (skip electronjs) omxplayer build. omxplayer (only?) video player that can decode video on pi w/ hardware acceleration. depends on livestreamer / streamlink package, neither of which currently work reliably w/ ustream.com streams.
 
 ## Getting started
 

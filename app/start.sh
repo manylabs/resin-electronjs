@@ -18,5 +18,7 @@ DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket \
   org.freedesktop.hostname1.SetStaticHostname \
   string:$URL_HOSTNAME boolean:true
 
+echo "start.sh: set hostname from \$URL_HOSTNAME to $URL_HOSTNAME"
+
 rm /tmp/.X0-lock &>/dev/null || true
 startx /usr/src/app/node_modules/electron/dist/electron /usr/src/app --enable-logging
