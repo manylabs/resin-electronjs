@@ -1,37 +1,61 @@
-# resin-electronjs
+# resin-electronjs-piscreen
 
-a boilerplate for developing kiosks, digital signage or other human-machine interaction projects based on [ElectronJS](http://electron.atom.io/) and [resin.io](http://resin.io)
+A resin.io + electronjs app for raspberry pi that streams the [live ustream video feed](http://www.ustream.tv/channel/iss-hdev-payload) from NASA's [High Definition Earth-Viewing System](https://eol.jsc.nasa.gov/ESRS/HDEV/) payload on the ISS.
+
+Forked from [resin.io electronJS application template](https://github.com/resin-io/resin-electronjs)
+
+## piscreen setup - ISS HDEV stream
+
+1. work on the `ISS` branch
+
+2. set [environment variables](https://docs.resin.io/management/env-vars/) via resin dashboard
+  ```
+  URL_LAUNCHER_WIDTH=1280
+  URL_LAUNCHER_KIOSK=1
+  URL_LAUNCHER_TITLE=ISS HDEV payload - USTREAM
+  URL_LAUNCHER_HEIGHT=1024
+  URL_LAUNCHER_URL=http://ustream.tv/channel/iss-hdev-payload/pop-out
+  URL_HOSTNAME=piscreen-ISS-HDEV
+  URL_LAUNCHER_CONSOLE=0
+  RESIN_HOST_CONFIG_gpu_mem=160
+  ```
+
+3. notes
+
+  - usb wifi dongle: `74:DA:38:41:B7:A1`
+  - iss ustream: http://ustream.tv/channel/iss-hdev-payload/pop-out
+  - spacex live webcast: https://www.youtube.com/embed/lZmqbL-hz7U?rel=0&autoplay=1&loop=1
+  - yule log: https://www.youtube.com/embed/97g1krDkzNI?rel=0&autoplay=1&loop=1&playlist=97g1krDkzNI
+  - see `livestreamer` branch for experimental headless (skip electronjs) omxplayer build. omxplayer (only?) video player that can decode video on pi w/ hardware acceleration. depends on livestreamer / streamlink package, neither of which currently work reliably w/ ustream.com streams.
 
 ## Getting started
 
-- Sign up on [resin.io](https://dashboard.resin.io/signup)
-- go throught the [getting started guide](http://docs.resin.io/raspberrypi/nodejs/getting-started/) and create a new application
+- access devices via Manylab's [resin.io](https://dashboard.resin.io/) acct
+- learn about resin.io IoT management platform by reading the [getting started guide](http://docs.resin.io/raspberrypi/nodejs/getting-started/)
 - clone this repository to your local workspace
 - add the _resin remote_ to your local workspace using the useful shortcut in the dashboard UI ![remoteadd](https://raw.githubusercontent.com/resin-io-playground/boombeastic/master/docs/gitresinremote.png)
-- `git push resin master`
+- work in the `ISS` branch.
+- deploy to device with `git push resin ISS:master`
 - see the magic happening, your device is getting updated Over-The-Air!
+- *optional:* get updates made to the main [resin-electronjs repo](https://github.com/resin-io/resin-electronjs). Add it as a [remote fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/):
 
-## Configure via [environment variables](https://docs.resin.io/management/env-vars/)
-Variable Name | Value | Description | Device-specific
------------- | ------------- | ------------- | -------------
-**`RESIN_HOST_CONFIG_gpu_mem`** | a value from `64` to `160` | the amount of RAM dedicated to the GPU | Raspberry Pi (all revs)
+  1. `git remote add upstream https://github.com/resin-io/resin-electronjs.git`
+  2. `git fetch upstream` (checks out into local `upstream/master` branch)
+  3. `git checkout master`
+  4. `git merge upstream/master` (merge upstream fork into local `master`)
+  5. `git checkout ISS`
+  6. `git merge upstream/master` (merge upstream fork into local `ISS`)
 
-Apply the above settings in the "Fleet Configuration" panel (if applying it for the all devices withing your application), or "Device Configuration" panel (if applying it for a single device).
-
-
-### WHY THIS TEMPLATE
-
-Achieving kinda-smooth desktop application display on a devices like the raspberrypi is hard. This project aims to provide a quickstart template.
-
-### WHY FLUXBOX
-
-We did a lot of researches and tests with several window managers. [Fluxbox](http://fluxbox.org/) ended up being the most balanced between minimum footprint and features
 
 ### URL LAUNCHER config via ENV VARS
-*__!!! Please note that since `0.1.0` the `bool`-based env vars dropped `true` / `false` strings in favour of `0` / `1` ones. !!!__*
 
 simply set these [environment varables](http://docs.resin.io/#/pages/management/env-vars.md) in your app via "Environment Variables" panel in the resin dashboard to configure the behaviour of your devices.
-*__Please note that the `bool` type definition in the table is meant to accept to either `0` or `1` values.__*
+
+Manylabs-specific:
+
+* **`URL_HOSTNAME`** set device hostname
+
+Included in resin-electronjs template:
 
 * **`URL_LAUNCHER_URL`** *string* - the URL to be loaded. use `file:////usr/src/app/data/index.html` to load a local electronJS (or any website) app - *defaults to* `file:////usr/src/app/data/index.html`
 * **`URL_LAUNCHER_NODE`** *bool* (converted from *string*) - whether or not enable nodejs - *defaults to* `0`
