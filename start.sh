@@ -19,7 +19,7 @@ echo "start.sh: entering infinite loop (restarts streamlink when it crashes)"
 while true
 do
   # TODO add non-root user to exec this script
-  streamlink --player "omxplayer --timeout 20 --live" --player-fifo --retry-open 2 --retry-streams 2 --stream-segment-timeout 2 --stream-segment-attempts 6 http://www.ustream.tv/channel/nasa-media-channel best
+  streamlink --player "omxplayer --timeout 20 --live" --player-fifo --retry-open 2 --retry-streams 2 --stream-segment-timeout 2 --stream-segment-attempts 6 http://www.ustream.tv/channel/iss-hdev-payload best
 done
 
 # livestreamer -l debug --verbose-player --hls-segment-threads 2 --hls-live-edge 8 --yes-run-as-root --player "omxplayer --timeout 10" --player-no-close --fifo http://ustream.tv/channel/iss-hdev-payload mobile_720p
