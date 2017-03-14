@@ -20,7 +20,7 @@ while true
 do
   # TODO add non-root user to exec this script
   # stream source: http://www.ustream.tv/channel/iss-hdev-payload
-  streamlink --player "omxplayer --timeout 20 --live" --player-fifo --retry-open 2 --retry-streams 2 --stream-segment-timeout 2 --stream-segment-attempts 6 $URL_LAUNCHER_URL $STREAMLINK_QUALITY
+  streamlink --player "omxplayer --timeout 20 --live --aspect-mode fill" --player-fifo --retry-open 2 --retry-streams 2 --stream-segment-timeout 2 --stream-segment-attempts 6 $URL_LAUNCHER_URL $STREAMLINK_QUALITY
 done
 
 # livestreamer -l debug --verbose-player --hls-segment-threads 2 --hls-live-edge 8 --yes-run-as-root --player "omxplayer --timeout 10" --player-no-close --fifo http://ustream.tv/channel/iss-hdev-payload mobile_720p

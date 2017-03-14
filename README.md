@@ -10,6 +10,7 @@ The ISS completes a full orbit roughly every 90 minutes. The video transmission 
 - [beardypig/streamlink:ustream-websockets](https://github.com/beardypig/streamlink/tree/ustream-websockets) ([ustream plugin src](https://github.com/beardypig/streamlink/blob/ustream-websockets/src/streamlink/plugins/ustreamtv.py))
 - [Tristanx/streamlink:master](https://github.com/Tristanx/streamlink) ([ustream plugin src](https://github.com/Tristanx/streamlink/blob/master/src/streamlink/plugins/ustreamtv.py))
 - [Tristanx vs. beardypig comparison](https://github.com/Tristanx/streamlink/compare/master...beardypig:ae149acd)
+- [beardypig PR discussion](https://github.com/streamlink/streamlink/pull/137)
 
 ### related RPI web kiosk display projects
 - DIY Smart Television with RaspberryPi and Node.js http://blog.donaldderek.com/2013/06/build-your-own-google-tv-using-raspberrypi-nodejs-and-socket-io/
@@ -19,6 +20,12 @@ The ISS completes a full orbit roughly every 90 minutes. The video transmission 
   > "I've found another stream that has probably better availability. It is from urthecast.com project.
   > The chunks have to be grabbed from: https://d2ai41bknpka2u.cloudfront.net/live/iss.stream_source/chunklist.m3u8
   > Then the chunk link will look like: https://d2ai41bknpka2u.cloudfront.net/live/iss.stream_source/media-upp83ggdj_25765.ts"
+
+## setup
+1. follow the setup instructions in the README of the `master` or `ISS` branches.
+2. set the following environment variable on resin.io device dashboard:
+  - `STREAMLINK_QUALITY`: `mobile_720p`
+  - note: this build of streamlink will also support "desktop streams" from ustream, but they are slower w/ the pi (crappy wifi dongle?). to try, use `720p` or `best` instead of `mobile_720p`.
 
 ### Dev notes
 ssh access:
