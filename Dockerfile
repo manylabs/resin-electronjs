@@ -45,4 +45,5 @@ ENV INITSYSTEM on
 
 # exec our app.
 # CMD ["/bin/bash", "/app/start.sh"]
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
+CMD forever kijani-poller.js
