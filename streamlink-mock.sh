@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# use this script for dev testing if you don't want to install streamlink
+#
+# kijani-poller.js will try to run `streamlink` command instead of this script
+# if if $RESIN_APP_NAME is defined
+
 echo 'streamlink mock bash script'
 echo 'iss-streamer.sh: entering infinite restart loop'
 
