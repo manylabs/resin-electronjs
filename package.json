@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "forever start --spinSleepTime 500 kijani-poller.js; forever logs kijani-poller.js -f",
+    "start": "forever start --spinSleepTime 500 kijani-poller.js && forever logs kijani-poller.js -f",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
