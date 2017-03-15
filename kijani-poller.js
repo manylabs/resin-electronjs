@@ -49,10 +49,10 @@ const getLux = function(){
   request(options, function(error, response, body){
       if(error) console.log(error);
       else {
+        let lux = oldLux;
         try {
-          let lux = body.pins.photocell_sensor.value;
+          lux = body.pins.photocell_sensor.value;
         } catch (err) {
-          let lux = oldLux;
           console.log('error parsing kijanigrows JSON. Response: \n' + body);
         }
         luxAvr = (oldLux + lux) / 2;
