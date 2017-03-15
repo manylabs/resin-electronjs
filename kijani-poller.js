@@ -1,25 +1,24 @@
 const forever = require('forever-monitor');
 const request = require("request");
 
-// start with
-// forever start -o out.log -e err.log -f --spinSleepTime 500 kijani-poller.js; forever logs kijani-poller.js -f
+// `npm start`:
+// forever start --spinSleepTime 500 kijani-poller.js; forever logs kijani-poller.js -f
 
-// use mock streamlink script if not on resin.io rpi "production"
-// const path = process.env.RESIN_APP_NAME ? '/usr/local/bin/' : process.env.PWD;
+// mock streamlink script for testing if not on resin.io rpi "production"
 const command = process.env.RESIN_APP_NAME ? 'streamlink' : './streamlink-mock.sh';
+const POLL_FREQUENCY = process.env.KIJANI_POLL_FREQUENCY || 30000;
+const LUX_THRESHOLD = process.env.KIJANI_LUX_THRESHOLD || 75;
 
-// global state vars (naughty)
-var LIGHT_STATE = 'ON'
-var oldLux = 100;
-var luxAvr = 100;
+// these defaults cause immediate OFF -> ON transition, starting streamlink
+var LIGHT_STATE = 'OFF';
+var oldLux = LUX_THRESHOLD;
+var luxAvr = LUX_THRESHOLD + 1;
 
-// const streamlink = forever.start([command, path], {
-const streamlink = forever.start(command, {
-  max: 1,
-  // env: {'URL_LAUNCHER_URL': 'http://example.com', 'STREAMLINK_QUALITY': 'mobile_720p'},
-  // sourceDir: path,
-  command: command,
-  args: ['--player "omxplayer --timeout 20 --live --aspect-mode fill" --player-fifo --retry-open 2 --retry-streams 2 --stream-segment-timeout 2 --stream-segment-attempts 6 $URL_LAUNCHER_URL $STREAMLINK_QUALITY'],
+const streamlink_args = [`${command} --config .streamlinkrc ${process.env.URL_LAUNCHER_URL} ${process.env.STREAMLINK_QUALITY}`];
+const streamlink = new (forever.Monitor)( streamlink_args, {
+  'silent': true,
+  'minUptime': 2000,
+  'spinSleepTime': 10000
 });
 
 streamlink.on('start', function () {
@@ -30,67 +29,78 @@ streamlink.on('stop', function () {
   console.log(`stopped ${command}`);
 });
 
-streamlink.on('exit:code', function (code) {
-  console.log(`exited ${command} with code ${code}`);
+streamlink.on('restart', function() {
+    if(! streamlink.times % 50) {
+      console.error(`Forever has restarted ${command} ${streamlink.times} times`);
+    }
 });
+
+// streamlink.on('exit:code', function (code) {
+//   console.log(`exited ${command} with code ${code}`);
+// });
 
 streamlink.on('error:err', function (err) {
-  console.log(`streamlink error: ${err}`);
+  console.error(`streamlink error: ${err}`);
 });
 
-// streamlink.start();
-
 const getLux = function(){
-  var options = {
+  const options = {
       uri: 'http://api.kijanigrows.com/v2/device/sensors/json/manylabs',
       method: 'GET',
       json:true
   }
   request(options, function(error, response, body){
-      if(error) console.log(error);
+      if(error){
+        console.error(error);
+      }
       else {
         let lux = oldLux;
+        let oldLuxAvr = luxAvr;
+
         try {
           lux = body.pins.photocell_sensor.value;
-        } catch (err) {
-          console.log('error parsing kijanigrows JSON. Response: \n' + body);
+          console.log(`${(lux > luxAvr) ? '🔆' : '🔅'}  ${lux} lux`)
         }
+        catch (err) {
+          console.error('error parsing kijanigrows JSON response: \n' + body);
+        }
+
         luxAvr = (oldLux + lux) / 2;
         oldLux = lux;
-        return luxAvr;
+        if (Math.abs(oldLuxAvr - luxAvr) > 100) console.log(`💡 ${oldLuxAvr} => ${luxAvr}`);
       }
   });
 }
 
 const poll = function(){
-  // asynch req sets luxAvr
+  // asynch req to set luxAvr (averge of last two successful requests)
   getLux();
 
   // state machine
   switch (LIGHT_STATE) {
 
     case 'ON':
-      if (luxAvr < 70) {
+      if (luxAvr < LUX_THRESHOLD) {
         LIGHT_STATE = 'OFF';
-        console.log(`start.js: LUX < 70 (${luxAvr}), stopping ${command}`);
+        console.log(`🌃  ${luxAvr} < ${LUX_THRESHOLD} lux; stopping ${command}`);
         streamlink.stop();
       }
-      //
       break
 
     case 'OFF':
-      if (luxAvr > 70) {
+      if (luxAvr > LUX_THRESHOLD) {
         LIGHT_STATE = 'ON';
-        console.log(`start.js: LUX > 70 (${luxAvr}), starting ${command}`);
+        console.log(`🌇  ${luxAvr} > ${LUX_THRESHOLD} lux; starting ${command}`);
         streamlink.start();
       }
       break
 
     default:
       LIGHT_STATE = 'ON';
-
+      luxAvr = LUX_THRESHOLD +1;
+      streamlink.start();
   }
 }
 
 // main loop - call poll() every 20 seconds
-setInterval(poll, 20000);
+setInterval(poll, 30000);
