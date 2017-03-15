@@ -8,7 +8,7 @@ The ISS completes a full orbit roughly every 90 minutes. The video transmission 
 
 **Note 3/13/17:** video streams provided by this branch may not work reliably because the ustream plugin in [streamlink](https://github.com/streamlink/streamlink) (the active fork of livestreamer) is currently broken and so we are using a work-in-progress fork.
 
-**Note3/15/17: now integrates with [kijanigrows api](http://api.kijanigrows.com/app/#/trends/manylabs/) to automaticlly start/stop video based on Manylabs 3rd floor light sensor. Uses [forever.js](https://github.com/foreverjs/forever) & [forever-monitor](https://github.com/foreverjs/forever-monitor).
+**Note3/15/17:** now integrates with [kijanigrows api](http://api.kijanigrows.com/app/#/trends/manylabs/) to automaticlly start/stop video based on Manylabs 3rd floor light sensor. Uses [forever.js](https://github.com/foreverjs/forever) & [forever-monitor](https://github.com/foreverjs/forever-monitor).
 
 The following forks of streamlink have work-in-progress ustream plugins that *may* work. This branch currently uses [beardypig websockets](https://github.com/beardypig/streamlink/tree/ustream-websockets).
 - [beardypig/streamlink:ustream-websockets](https://github.com/beardypig/streamlink/tree/ustream-websockets) ([ustream plugin src](https://github.com/beardypig/streamlink/blob/ustream-websockets/src/streamlink/plugins/ustreamtv.py))
