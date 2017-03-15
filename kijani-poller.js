@@ -59,7 +59,7 @@ const getLux = function(){
 
         try {
           lux = body.pins.photocell_sensor.value;
-          console.log(`${(lux > luxAvr) ? '🔆' : '🔅'}  ${lux} lux`)
+          if (process.env.NODE_DEBUG) console.log(`${(lux > luxAvr) ? '🔆' : '🔅'}  ${lux} lux`)
         }
         catch (err) {
           console.error('error parsing kijanigrows JSON response: \n' + body);
