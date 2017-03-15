@@ -4,6 +4,11 @@ A resin.io + electronjs app for raspberry pi that streams the [live ustream vide
 
 Forked from [resin.io electronJS application template](https://github.com/resin-io/resin-electronjs)
 
+## release notes
+**Note 3/13/17:** headless streamlink+omxplayer (faster than electronjs) working semi-reliably in [`streamlink`](https://github.com/manylabs/resin-electronjs-piscreen/tree/streamlink) branch
+
+**Note3/15/17**: [`kijani`](https://github.com/manylabs/resin-electronjs-piscreen/tree/kijani) branch integrates with [kijanigrows api](http://api.kijanigrows.com/app/#/trends/manylabs/) to automaticlly start/stop video based on Manylabs 3rd floor light sensor. Uses [forever.js](https://github.com/foreverjs/forever) & [forever-monitor](https://github.com/foreverjs/forever-monitor).
+
 ## piscreen setup - ISS HDEV stream
 
 1. work on the `ISS` branch
