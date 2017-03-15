@@ -1,36 +1,45 @@
 FROM resin/raspberrypi2-python:3.6
 
-#----------------------
-# add node
-# https://github.com/resin-io-library/base-images/blob/master/node/raspberry-pi2/debian/default/slim/Dockerfile
-ENV NODE_VERSION 0.10.22
-
-RUN buildDeps='curl' \
-	&& set -x \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& curl -SLO "http://resin-packages.s3.amazonaws.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
-	&& echo "d72e7f3908738ed502ebd53552619c955bbd13cf4e7e0f88cfb0ea2c5a396005  node-v0.10.22-linux-armv7hf.tar.gz" | sha256sum -c - \
-	&& tar -xzf "node-v$NODE_VERSION-linux-armv7hf.tar.gz" -C /usr/local --strip-components=1 \
-	&& rm "node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
-	&& apt-get purge -y --auto-remove $buildDeps \
-	&& npm config set unsafe-perm true -g --unsafe-perm \
-	&& rm -rf /tmp/*
-#----------------------
-
-# kijani light sensor poll script deps
-RUN npm install -g forever forever-monitor
-
-# Install livestreamer deps
+# Install node & livestreamer deps
 RUN apt-get update \
-  && apt-get install -y \
+  && apt-get install -y --no-install-recommends \
+  curl \
   openssh-server \
   omxplayer \
   librtmp-dev \
   libffi-dev \
   # Remove package lists to free up space
   && rm -rf /var/lib/apt/lists/*
+
+#----------------------
+# add node
+# https://github.com/resin-io-library/base-images/blob/master/node/raspberry-pi2/debian/default/slim/Dockerfile
+# ENV NODE_VERSION 0.10.22
 #
+# RUN buildDeps='curl' \
+#   && set -x \
+#   && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+#   && rm -rf /var/lib/apt/lists/* \
+#   && curl -SLO "http://resin-packages.s3.amazonaws.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
+#   && echo "d72e7f3908738ed502ebd53552619c955bbd13cf4e7e0f88cfb0ea2c5a396005  node-v0.10.22-linux-armv7hf.tar.gz" | sha256sum -c - \
+#   && tar -xzf "node-v$NODE_VERSION-linux-armv7hf.tar.gz" -C /usr/local --strip-components=1 \
+#   && rm "node-v$NODE_VERSION-linux-armv7hf.tar.gz" \
+#   && apt-get purge -y --auto-remove $buildDeps \
+#   && npm config set unsafe-perm true -g --unsafe-perm \
+#   && rm -rf /tmp/*
+# #----------------------
+
+# wait, node 0.10? how about latest
+# https://nodejs.org/dist/v7.7.3/node-v7.7.3-linux-armv7l.tar.xz
+RUN curl -sL 'https://deb.nodesource.com/setup_7.x' | sudo -E bash - \
+  && sudo apt-get install -y nodejs \
+  && npm config set unsafe-perm true -g --unsafe-perm \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /tmp/*
+
+# kijani light sensor poll script deps
+RUN npm install -g forever forever-monitor
+
 # # here we set up the config for openSSH.
 # # depends on openssh-server (above)
 # # https://github.com/resin-io-projects/resin-openssh/blob/master/Dockerfile.template
