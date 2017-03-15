@@ -52,7 +52,8 @@ const getLux = function(){
   request(options, function(error, response, body){
       if(error){
         // console.error(error);
-        console.error(`❗️ err: ${error.code} ${options.uri}`);
+        console.error(`❗️ ${error.code} ${options.uri} (${options.address})`);
+        if (process.env.NODE_DEBUG) console.log(error);
       }
       else {
         let lux = oldLux;
