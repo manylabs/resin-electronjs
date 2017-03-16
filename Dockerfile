@@ -46,4 +46,5 @@ ENV INITSYSTEM on
 # exec our app.
 # CMD ["/bin/bash", "/app/start.sh"]
 # CMD ["npm", "start"]
-CMD forever kijani-poller.js
+# CMD forever kijani-poller.js
+CMD ["forever", "start -o out.log -e err.log -f --spinSleepTime 500 kijani-poller.js"]

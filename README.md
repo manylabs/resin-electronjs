@@ -36,6 +36,31 @@ curl 'http://api.kijanigrows.com/v2/device/sensors/json/manylabs' -H 'Accept-Enc
 ### TODO
 - consider using [debug package](https://www.npmjs.com/package/debug) instead of DIYing it w/ $NODE_DEBUG=*
 - [node-emoji](https://github.com/omnidan/node-emoji) package for portable fun & profit
+- check [wheretheiss.at API](http://wheretheiss.at/w/developer) to determine when ISS is on night side
+- play alternate live or pre-recorded videos when ISS is on night side
+
+interesting alternate content:
+- http://rammb.cira.colostate.edu/ramsdis/online/loop_of_the_day/ GOES-16 loop of the day-side
+- http://rammb.cira.colostate.edu/ramsdis/online/goes-r_proving_ground.asp GOES-R proving ground
+- https://xkcd.com/
+- https://www.youtube.com/watch?v=s3RWTTtPg8E goddard global temp
+- https://www.youtube.com/watch?v=kJPz-oRnRDE goddard solar dynamics obs year 7
+- https://www.youtube.com/watch?v=gv65Orsh6LM goddard 2017 moon phases
+- https://www.youtube.com/watch?v=syU1rRCp7E8 goddard co2
+- https://www.youtube.com/watch?v=x1SgmFa0r04 goddard co2
+- https://www.youtube.com/watch?v=nIfijgJr0g0 goddard ice
+- goes-r / goes-16 rebroadcast geocolor
+- https://news.ycombinator.com/item?id=10977295 himawari8 live HN comments
+- https://github.com/dandelany/animate-earth Himawari satellite imagery motion interpolation
+- https://www.youtube.com/channel/UC6Mlo4zfmEITcNoCpBKfEfg (earthy animations from HN comments)
+
+awesome:
+- use airspy to receive goes-16 http://www.rtl-sdr.com/receiving-goes-lrit-full-disk-images-of-the-earth/ (2015/2016?)
+- OpenSatelliteProject Goes-16 HRIT reception http://www.teske.net.br/lucas/2017/01/goes-16-in-the-house/ (2017)
+- OpenSatelliteProject chat https://osp.teske.net.br/channel/general
+  - repo https://github.com/opensatelliteproject/
+- cyberspectrum San Fran SDR meetup talk on GOES http://www.rtl-sdr.com/the-20th-cyberspectrum-software-defined-radio-meetup/
+  - http://www.meetup.com/Cyberspectrum/events/228537145/
 
 #### ssh access
 - get ip from resin.io dashboard

@@ -16,7 +16,7 @@ var luxAvr = LUX_THRESHOLD + 1;
 
 const streamlink_args = [`${command} --config .streamlinkrc ${process.env.URL_LAUNCHER_URL} ${process.env.STREAMLINK_QUALITY}`];
 const streamlink = new (forever.Monitor)( streamlink_args, {
-  'silent': true,
+  'silent': (! process.env.NODE_DEBUG),
   'minUptime': 2000,
   'spinSleepTime': 10000
 });
