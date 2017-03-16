@@ -2,25 +2,26 @@
   "name": "resin-electronjs-piscreen",
   "version": "1.0.0",
   "description": "A resin.io app for raspberry pi that streams the [live ustream video feed](http://www.ustream.tv/channel/iss-hdev-payload) from NASA's [High Definition Earth-Viewing System](https://eol.jsc.nasa.gov/ESRS/HDEV/) payload on the ISS.",
+  "keywords": ["resin", "ISS", "raspberry-pi", "livestream", "streamlink"],
+  "author": "mac@has100ideas.com",
+  "homepage": "https://github.com/manylabs/resin-electronjs-piscreen#readme",
   "main": "kijani-poller.js",
+  "scripts": {
+    "start": "forever --spinSleepTime 2000 kijani-poller.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {"streamlink-mock": "bin/streamlink-mock.sh"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manylabs/resin-electronjs-piscreen.git"
+  },
   "dependencies": {
     "forever-monitor": "^1.7.1",
     "request": "^2.81.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "start": "forever --spinSleepTime 500 kijani-poller.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/manylabs/resin-electronjs-piscreen.git"
-  },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/manylabs/resin-electronjs-piscreen/issues"
-  },
-  "homepage": "https://github.com/manylabs/resin-electronjs-piscreen#readme"
+  }
 }

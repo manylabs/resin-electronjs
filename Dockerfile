@@ -18,25 +18,28 @@ RUN curl -sL 'https://deb.nodesource.com/setup_7.x' | sudo -E bash - \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
 
-# global install forever
-RUN npm install -g forever
-
 # install python modules
 # use `RUN pip install -r /requirements.txt` for better container caching
 # RUN python -m pip install python-librtmp streamlink
 RUN python -m pip install python-librtmp
 
-# copy current directory into /app
-COPY . /app
-
 # use beardypig/streamlink:ustream-websockets branch b/c ustream plugin not
 # fixed in main streamlink repo yet (Mar 2017)
 # https://github.com/beardypig/streamlink/tree/ustream-websockets
-WORKDIR /app/streamlink-src
+#
+# multiple COPY directives help reduce docker build cache invalidation
+COPY lib /app/lib/
+WORKDIR /app/lib/streamlink-src
 RUN python setup.py install
+
+# global install forever
+RUN npm install -g forever
 
 # install node deps from package.json
 WORKDIR /app
+# COPY src src/
+COPY bin bin/
+COPY kijani-poller.js package.json /app/
 RUN npm install
 
 # TODO notsure
@@ -44,7 +47,7 @@ RUN npm install
 ENV INITSYSTEM on
 
 # exec our app.
-CMD ["/bin/bash", "/app/start.sh"]
+CMD npm start
 # CMD ["npm", "start"]
 # CMD forever kijani-poller.js
 # CMD ["node", "/usr/bin/forever start -o /app/out.log -e /app/err.log --spinSleepTime 500 kijani-poller.js"]

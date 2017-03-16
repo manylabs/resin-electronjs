@@ -4,8 +4,8 @@ const request = require("request");
 // `npm start`:
 // forever start --spinSleepTime 500 kijani-poller.js; forever logs kijani-poller.js -f
 
-// mock streamlink script for testing if not on resin.io rpi "production"
-const command = process.env.RESIN_APP_NAME ? 'streamlink' : './streamlink-mock.sh';
+// mock streamlink script for testing if not on resin.io rpi "production" (symlinked into local PATH by package.json + npm install)
+const command = process.env.RESIN_APP_NAME ? 'streamlink' : 'streamlink-mock';
 const POLL_FREQUENCY = process.env.KIJANI_POLL_FREQUENCY || 30000;
 const LUX_THRESHOLD = process.env.KIJANI_LUX_THRESHOLD || 75;
 
@@ -14,7 +14,7 @@ var LIGHT_STATE = 'OFF';
 var oldLux = LUX_THRESHOLD;
 var luxAvr = LUX_THRESHOLD + 1;
 
-const streamlink_args = [`${command} --config .streamlinkrc ${process.env.URL_LAUNCHER_URL} ${process.env.STREAMLINK_QUALITY}`];
+const streamlink_args = [`${command} --config lib/.streamlinkrc ${process.env.URL_LAUNCHER_URL} ${process.env.STREAMLINK_QUALITY}`];
 const streamlink = new (forever.Monitor)( streamlink_args, {
   'silent': (! process.env.NODE_DEBUG),
   'minUptime': 2000,
