@@ -44,7 +44,7 @@ RUN npm install
 ENV INITSYSTEM on
 
 # exec our app.
-# CMD ["/bin/bash", "/app/start.sh"]
+CMD ["/bin/bash", "/app/start.sh"]
 # CMD ["npm", "start"]
 # CMD forever kijani-poller.js
-CMD ["node", "/usr/bin/forever start -o /app/out.log -e /app/err.log --spinSleepTime 500 kijani-poller.js"]
+# CMD ["node", "/usr/bin/forever start -o /app/out.log -e /app/err.log --spinSleepTime 500 kijani-poller.js"]
