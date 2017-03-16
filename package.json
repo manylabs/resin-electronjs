@@ -10,7 +10,6 @@
     "start": "forever --spinSleepTime 2000 kijani-poller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": {"streamlink-mock": "bin/streamlink-mock.sh"},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manylabs/resin-electronjs-piscreen.git"
