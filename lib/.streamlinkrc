@@ -1,0 +1,9 @@
+# Player options
+player=omxplayer --timeout 20 --live --aspect-mode fill
+
+# Streamlink options
+player-fifo
+retry-open=2
+retry-streams=2
+stream-segment-timeout=2
+stream-segment-attempts=6
